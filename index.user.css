@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           bilibili搜索引擎首页样式
 @namespace      hakadao-bilibili-simple-home
-@version        1.9.1
+@version        1.9.2
 @description    b站搜索引擎首页样式风格，支持几种不同的样式效果
 @author         Hakadao <a578457889743@gmail.com> (https://hakadao.cc)
 @homepageURL    https://github.com/hakadao/bilibili-simple-home
@@ -1345,12 +1345,24 @@ THEME_DARK_AUTO "暗色模式（跟随系统）" <<<EOT
 			transform: translateY(10px) scale(.95);
 			opacity: 0;
 			pointer-events: none;
+			visibility: hidden;
 	}
-	#nav-searchform.is-focus + .search-panel {
+	/* 最新首页失焦后可能残留 is-focus，改为以真实焦点为准显示下拉 */
+	#nav-searchform.is-focus + .search-panel,
+	#nav-searchform:focus-within + .search-panel,
+	.center-search__bar:focus-within > .search-panel,
+	.center-search__bar > .search-panel:active {
 			transform: translateY(0%) scale(1);
 			opacity: 1;
 			pointer-events: auto;
+			visibility: visible;
 			border-radius: var(--a-radius)!important;
+	}
+	.center-search__bar:not(:focus-within) #nav-searchform + .search-panel:not(:active) {
+			transform: translateY(10px) scale(.95) !important;
+			opacity: 0 !important;
+			pointer-events: none !important;
+			visibility: hidden !important;
 	}
 	.bili-header .slide-down .search-panel {
 			background: var(--a-elevated-2);
