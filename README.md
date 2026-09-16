@@ -16,6 +16,18 @@ b站仿搜索引擎样式首页风格
 
 4. [UserStyles.world 安装](https://userstyles.world/style/3022/bilibili)
 
+### Windows：顶栏 slide-down 不出现
+
+B 站首页用 Vue 绑定 `.bili-header__bar.slide-down`：只有 `document.scrollingElement.scrollTop > 32` 时才会加上。Windows 上聚焦搜索通常不会把页面滚过 32px，默认「全屏壁纸不能下滑」时页面也滚不动，所以官方永远不加这个 class。CSS 加不了 Vue 绑定的 class；旧脚本用 `classList.add` 也会被 Vue 下一帧覆盖。
+
+请安装 Tampermonkey / 暴力猴，再安装仓库里的 `slide-down.user.js`（必须是 **1.2.0**，请在插件面板里确认版本；旧的 1.0 / 1.1 请删掉重装）。
+
+1. Chrome 扩展页打开「开发者模式」，并允许 Tampermonkey 运行用户脚本。
+2. 打开脚本后**硬刷新**首页（Ctrl+F5）。
+3. 点搜索框，或在不能下滑的全屏壁纸上向下滚轮。
+4. 开发者工具里 `<html>` 应有 `data-bsh-sd="1.2.0"`；点搜索后 `.bili-header__bar` 应出现 `slide-down`。控制台可运行 `__bshSlideDownDebug()`。
+5. 样式保持 **1.9.2** 即可，不要改搜索框宽度/居中。
+
 ## 快速配置
 
 * [自定义背景](#自定义背景)
